@@ -3,6 +3,6 @@ queries:
   - uses: zbazztian/codeql-debug/javascript-debug-pack/noresults.ql@master
 
 paths-ignore:
-  - /**
+  - /**/
 paths:
   - /javascript
