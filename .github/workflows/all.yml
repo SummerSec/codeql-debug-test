@@ -16,6 +16,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    # we need java 8 for hadoop
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '8'
+        java-package: jdk
+        architecture: x64
+
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
