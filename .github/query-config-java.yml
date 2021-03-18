@@ -1,0 +1,3 @@
+disable-default-queries: true
+queries:
+  - uses: zbazztian/codeql-debug/java-debug-pack/noresults.ql@master

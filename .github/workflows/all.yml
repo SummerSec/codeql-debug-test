@@ -1,0 +1,50 @@
+name: "CodeQL Debugging All"
+
+on: workflow_dispatch
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'java', 'javascript', 'go' ]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        languages: ${{ matrix.language }}
+        config-file: .github/query-config-${{ matrix.language }}.yml   # separate configuration file for each language
+
+    - name: manual build command for Java
+      if: ${{ matrix.language == 'java' }}    # will not be executed during Javascript runs
+      run: |
+        java/build.sh
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v1
+      if: ${{ matrix.language == 'javascript' || matrix.language == 'go' }}
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
+      with:
+        upload: false
+
+    - name: Debug Analysis
+      uses: zbazztian/codeql-debug@master
+      with:
+        language: ${{ matrix.language }}
+
+    - name: Upload loc as a Build Artifact
+      uses: actions/upload-artifact@v2.2.0
+      with:
+        name: codeql-debug-results
+        path: codeql-debug-results
+        retention-days: 30
