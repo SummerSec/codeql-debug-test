@@ -2,7 +2,6 @@ name: "CodeQL Debugging All"
 
 on: workflow_dispatch
 
-
 jobs:
   analyze:
     name: Analyze
