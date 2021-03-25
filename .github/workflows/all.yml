@@ -46,7 +46,7 @@ jobs:
         upload: false
 
     - name: Debug Analysis
-      uses: zbazztian/codeql-debug@test
+      uses: zbazztian/codeql-debug@master
       with:
         language: ${{ matrix.language }}
 
