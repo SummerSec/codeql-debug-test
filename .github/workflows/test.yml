@@ -14,7 +14,7 @@ jobs:
         language: [ 'python' ]
 
     steps:
-    - name: Support longpaths
+    - name: Make some modifications
       run: |
         cat /opt/hostedtoolcache/CodeQL/*/x64/codeql/qlpacks/codeql-python/Customizations.qll
         echo "howdy how" >> /opt/hostedtoolcache/CodeQL/*/x64/codeql/qlpacks/codeql-python/Customizations.qll
