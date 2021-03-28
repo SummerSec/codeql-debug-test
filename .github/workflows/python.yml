@@ -1,0 +1,44 @@
+name: "CodeQL Debugging Python"
+
+
+on: workflow_dispatch
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'python' ]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v1
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
+      with:
+        upload: false
+
+    - name: Debug Analysis
+      uses: zbazztian/codeql-debug@test
+      with:
+        language: ${{ matrix.language }}
+
+    - name: Upload loc as a Build Artifact
+      uses: actions/upload-artifact@v2.2.0
+      with:
+        name: codeql-debug-results
+        path: codeql-debug-results
+        retention-days: 30
